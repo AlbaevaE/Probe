@@ -37,9 +37,9 @@ const GROUPS = [
 export default async function HomePage({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const locale = (await params).locale as Locale;
   setRequestLocale(locale);
 
   const feed = await getTranslations("experiments.feed");

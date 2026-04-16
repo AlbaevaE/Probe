@@ -65,9 +65,10 @@ async function overfittingLabels(t: Awaited<ReturnType<typeof getTranslations<"e
 export default async function ExperimentPage({
   params,
 }: {
-  params: Promise<{ locale: Locale; slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale, slug } = await params;
+  const { locale: rawLocale, slug } = await params;
+  const locale = rawLocale as Locale;
   if (!SLUGS.includes(slug as Slug)) notFound();
   setRequestLocale(locale);
 

@@ -7,9 +7,9 @@ import type { Locale } from "@/i18n/routing";
 export default async function LessonsIndexPage({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const locale = (await params).locale as Locale;
   setRequestLocale(locale);
   const t = await getTranslations("lessons");
 

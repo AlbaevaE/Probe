@@ -17,9 +17,10 @@ export async function generateStaticParams() {
 export default async function LessonPage({
   params,
 }: {
-  params: Promise<{ locale: Locale; slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale, slug } = await params;
+  const { locale: rawLocale, slug } = await params;
+  const locale = rawLocale as Locale;
   setRequestLocale(locale);
 
   const lesson = await loadLesson(locale, slug);
