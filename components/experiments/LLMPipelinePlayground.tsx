@@ -199,12 +199,12 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
       {phase === "pipeline" && (
         <div className="flex flex-col gap-5">
           {/* stage progress */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 overflow-x-auto pb-1">
             {STAGES.map((s, i) => (
               <div key={s} className="flex items-center">
                 <div
                   className={clsx(
-                    "flex h-8 items-center rounded-full px-3 text-xs font-semibold transition",
+                    "flex h-8 shrink-0 items-center rounded-full px-3 text-xs font-semibold transition",
                     i === stageIdx
                       ? "bg-accent/15 text-accent"
                       : i < stageIdx
@@ -306,13 +306,13 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
                           />
                           <text
                             x={x}
-                            y={34}
-                            fontSize="9"
+                            y={35}
+                            fontSize="11"
                             fill="white"
                             textAnchor="middle"
                             fontFamily="monospace"
                           >
-                            {t.length > 5 ? t.slice(0, 5) : t}
+                            {t.length > 4 ? t.slice(0, 4) : t}
                           </text>
                           {/* attention arcs to other tokens */}
                           {inputTokens.slice(0, 6).map((_, j) => {
@@ -344,19 +344,19 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
                           />
                           <text
                             x={x}
-                            y={74}
-                            fontSize="8"
+                            y={75}
+                            fontSize="11"
                             fill="#2c2523"
                             textAnchor="middle"
                             fontFamily="monospace"
                           >
-                            {t.length > 5 ? t.slice(0, 5) : t}
+                            {t.length > 4 ? t.slice(0, 4) : t}
                           </text>
                         </g>
                       );
                     })}
                     {/* bottom label */}
-                    <text x="200" y="110" fontSize="10" fill="#6b5f54" textAnchor="middle">
+                    <text x="200" y="110" fontSize="13" fill="#6b5f54" textAnchor="middle">
                       attention scores
                     </text>
                     {/* arrows between layers */}

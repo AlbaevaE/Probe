@@ -194,13 +194,13 @@ export function OverfittingPlayground({ labels }: { labels: Labels }) {
             y2={viewBox.h - padB}
             stroke="#d6d0c8"
           />
-          <text x={padL - 8} y={padT + 4} fontSize="10" fill="#6b5f54" textAnchor="end">
+          <text x={padL - 8} y={padT + 4} fontSize="13" fill="#6b5f54" textAnchor="end">
             {labels.axesPrice}
           </text>
           <text
             x={viewBox.w - padR}
-            y={viewBox.h - padB + 22}
-            fontSize="10"
+            y={viewBox.h - padB + 24}
+            fontSize="13"
             fill="#6b5f54"
             textAnchor="end"
           >

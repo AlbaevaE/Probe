@@ -214,7 +214,7 @@ export function GradientDescentPlayground({ labels }: { labels: Labels }) {
           <circle
             cx={sx(currentBallX)}
             cy={sy(landscape(currentBallX))}
-            r="7"
+            r="9"
             fill="#9b3e14"
             stroke="#fafaf9"
             strokeWidth="2"
@@ -235,7 +235,7 @@ export function GradientDescentPlayground({ labels }: { labels: Labels }) {
               <text
                 x={sx(GLOBAL_MIN_X)}
                 y={sy(landscape(GLOBAL_MIN_X)) + 42}
-                fontSize="9"
+                fontSize="12"
                 fill="#4d6a23"
                 textAnchor="middle"
                 fontWeight="600"

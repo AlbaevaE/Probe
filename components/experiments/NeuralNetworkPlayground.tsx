@@ -166,13 +166,13 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
           style={{ fontFamily: 'ui-serif, "Iowan Old Style", Georgia, serif' }}
         >
           {/* layer labels */}
-          <text x={LAYERS_X[0]} y={30} fontSize="11" fill="#6b5f54" textAnchor="middle">
+          <text x={LAYERS_X[0]} y={30} fontSize="14" fill="#6b5f54" textAnchor="middle">
             {labels.inputLabel}
           </text>
-          <text x={LAYERS_X[1]} y={30} fontSize="11" fill="#6b5f54" textAnchor="middle">
+          <text x={LAYERS_X[1]} y={30} fontSize="14" fill="#6b5f54" textAnchor="middle">
             {labels.hiddenLabel}
           </text>
-          <text x={LAYERS_X[2]} y={30} fontSize="11" fill="#6b5f54" textAnchor="middle">
+          <text x={LAYERS_X[2]} y={30} fontSize="14" fill="#6b5f54" textAnchor="middle">
             {labels.outputLabel}
           </text>
 
@@ -220,7 +220,7 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
           {INPUT_Y.map((y, i) => (
             <g key={`in-${i}`}>
               <circle cx={LAYERS_X[0]} cy={y} r="18" fill="#fafaf9" stroke="#9b3e14" strokeWidth="1.5" />
-              <text x={LAYERS_X[0]} y={y + 4} fontSize="12" fill="#2c2523" textAnchor="middle" fontWeight="600">
+              <text x={LAYERS_X[0]} y={y + 5} fontSize="14" fill="#2c2523" textAnchor="middle" fontWeight="600">
                 {inputs[i]}
               </text>
             </g>
@@ -260,7 +260,7 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
                 <text
                   x={LAYERS_X[1]}
                   y={y + 4}
-                  fontSize="11"
+                  fontSize="13"
                   fill={disabled ? "#b8a379" : "#2c2523"}
                   textAnchor="middle"
                   fontWeight="600"
@@ -278,7 +278,7 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
             <text
               x={LAYERS_X[2]}
               y={OUTPUT_Y[0] + 5}
-              fontSize="14"
+              fontSize="16"
               fill="#2c2523"
               textAnchor="middle"
               fontWeight="700"

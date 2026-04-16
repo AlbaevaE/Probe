@@ -184,7 +184,7 @@ export function DecisionBoundaryPlayground({ labels }: { labels: Labels }) {
               key={i}
               cx={sx(p.x)}
               cy={sy(p.y)}
-              r="6"
+              r="7"
               fill={p.cls === "A" ? "#9b3e14" : "#2d6a9f"}
               opacity={0.8}
             />

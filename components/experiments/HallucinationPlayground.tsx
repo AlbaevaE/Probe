@@ -165,7 +165,7 @@ export function HallucinationPlayground({ labels }: { labels: Labels }) {
               >
                 <span
                   className={clsx(
-                    "w-24 shrink-0 text-right text-sm font-semibold",
+                    "w-20 shrink-0 text-right text-sm font-semibold sm:w-24",
                     isPick && !c.isCorrect && "text-accent",
                     isCorrectOne && "text-done",
                   )}

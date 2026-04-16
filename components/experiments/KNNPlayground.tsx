@@ -174,7 +174,7 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
               key={i}
               cx={scale(p.x)}
               cy={scale(p.y)}
-              r="5"
+              r="6"
               fill={p.cls === "red" ? "#9b3e14" : "#2d6a9f"}
               opacity={0.8}
             />
@@ -184,7 +184,7 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
           <circle
             cx={scale(query.x)}
             cy={scale(query.y)}
-            r="8"
+            r="10"
             fill={phase === "revealed" ? (result === "red" ? "#9b3e14" : "#2d6a9f") : "#fafaf9"}
             stroke="#2c2523"
             strokeWidth="2"
@@ -192,8 +192,8 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
           />
           <text
             x={scale(query.x)}
-            y={scale(query.y) + 4}
-            fontSize="10"
+            y={scale(query.y) + 5}
+            fontSize="13"
             fill={phase === "revealed" ? "#fff" : "#2c2523"}
             textAnchor="middle"
             fontWeight="700"
@@ -213,7 +213,7 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
               key={kv}
               onClick={() => setK(kv)}
               className={clsx(
-                "h-8 w-8 rounded-full border text-sm font-semibold transition",
+                "h-10 w-10 rounded-full border text-sm font-semibold transition",
                 k === kv
                   ? "border-accent bg-accent/15 text-accent"
                   : "border-border text-muted hover:border-accent/60",

@@ -21,13 +21,13 @@ export function Header() {
           {t("brand")}
         </Link>
         <nav className="flex items-center gap-5 text-sm">
-          <div className="flex items-center gap-1 rounded-full border border-border bg-surface p-0.5 text-xs">
+          <div className="flex items-center gap-1 rounded-full border border-border bg-surface p-1 text-xs">
             {routing.locales.map((l) => (
               <button
                 key={l}
                 onClick={() => switchTo(l)}
                 className={
-                  "rounded-full px-2.5 py-1 uppercase " +
+                  "rounded-full px-3.5 py-1.5 uppercase " +
                   (l === locale
                     ? "bg-accent/20 text-fg"
                     : "text-muted hover:text-fg")
