@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  body {
+    @apply bg-bg text-fg antialiased;
+    font-family: ui-serif, "Iowan Old Style", "Palatino Linotype", "Hoefler Text",
+      Palatino, Georgia, serif;
+    font-feature-settings: "ss01", "cv11";
+  }
+  a {
+    @apply underline-offset-4;
+  }
+}
+
+.prose-lesson {
+  @apply max-w-2xl leading-relaxed;
+}
+.prose-lesson h2 {
+  @apply font-display text-2xl font-bold mt-10 mb-3 tracking-tight;
+}
+.prose-lesson h3 {
+  @apply font-display text-xl font-semibold mt-6 mb-2;
+}
+.prose-lesson p {
+  @apply my-3 text-fg/90;
+}
+.prose-lesson ul {
+  @apply list-disc pl-6 my-3;
+}
+.prose-lesson ol {
+  @apply list-decimal pl-6 my-3;
+}
+.prose-lesson code {
+  @apply bg-surface border border-border rounded px-1 py-0.5 text-sm;
+}
+.prose-lesson blockquote {
+  @apply border-l-2 border-accent pl-4 text-muted italic my-4;
+}
+
+.react-flow__controls {
+  @apply !border !border-border !shadow-none;
+  background: #fafaf9 !important;
+}
+.react-flow__controls-button {
+  background: #fafaf9 !important;
+  border-bottom: 1px solid #d6d0c8 !important;
+  fill: #2c2523 !important;
+  color: #2c2523 !important;
+}
+.react-flow__controls-button:hover {
+  background: #f5f3f2 !important;
+}
+.react-flow__attribution {
+  display: none !important;
+}
