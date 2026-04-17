@@ -19,7 +19,7 @@
     "gray-matter": "^4.0.3",
     "next": "^15.5.15",
     "next-intl": "^3.26.3",
-    "next-mdx-remote": "^5.0.0",
+    "next-mdx-remote": "^6.0.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "remark-gfm": "^4.0.0",
@@ -27,7 +27,7 @@
     "zustand": "^5.0.2"
   },
   "engines": {
-    "node": ">=20"
+    "node": "20.x"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",

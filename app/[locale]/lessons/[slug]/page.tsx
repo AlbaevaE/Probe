@@ -64,7 +64,10 @@ export default async function LessonPage({
         <MDXRemote
           source={lesson.body}
           components={mdxComponents}
-          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+          options={{
+            mdxOptions: { remarkPlugins: [remarkGfm] },
+            blockJS: false,
+          }}
         />
       </article>
     </LessonShell>
