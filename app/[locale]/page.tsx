@@ -29,7 +29,8 @@ const GROUPS = [
   {
     key: "responsible",
     experiments: [
-      { slug: "ai-safety", ns: "aiSafety" },
+      { slug: "prompt-injection", ns: "promptInjection" },
+      { slug: "human-in-the-loop", ns: "humanInTheLoop" },
     ],
   },
 ] as const;

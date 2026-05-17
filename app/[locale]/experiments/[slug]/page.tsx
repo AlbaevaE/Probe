@@ -9,7 +9,8 @@ import { DataBalancePlayground } from "@/components/experiments/DataBalancePlayg
 import { DecisionBoundaryPlayground } from "@/components/experiments/DecisionBoundaryPlayground";
 import { LLMPipelinePlayground } from "@/components/experiments/LLMPipelinePlayground";
 import { HallucinationPlayground } from "@/components/experiments/HallucinationPlayground";
-import { AISafetyPlayground } from "@/components/experiments/AISafetyPlayground";
+import { PromptInjectionPlayground } from "@/components/experiments/PromptInjectionPlayground";
+import { HumanInTheLoopPlayground } from "@/components/experiments/HumanInTheLoopPlayground";
 
 const SLUGS = [
   "overfitting",
@@ -20,7 +21,8 @@ const SLUGS = [
   "decision-boundary",
   "llm-pipeline",
   "hallucination",
-  "ai-safety",
+  "prompt-injection",
+  "human-in-the-loop",
 ] as const;
 
 type Slug = (typeof SLUGS)[number];
@@ -290,6 +292,7 @@ export default async function ExperimentPage({
       deltaWrongBody: t("deltaWrongBody"),
       whatToDo: t("whatToDo"),
       tipsList: t("tipsList"),
+      recordedNote: t("recordedNote"),
     };
     return (
       <div className="mx-auto w-full max-w-4xl pt-4">
@@ -298,34 +301,76 @@ export default async function ExperimentPage({
     );
   }
 
-  if (slug === "ai-safety") {
-    const t = await getTranslations("experiments.aiSafety");
+  if (slug === "prompt-injection") {
+    const t = await getTranslations("experiments.promptInjection");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      inboxHeading: t("inboxHeading"),
+      assistantInstruction: t("assistantInstruction"),
+      email1From: t("email1From"),
+      email1Subject: t("email1Subject"),
+      email1Body: t("email1Body"),
+      email2From: t("email2From"),
+      email2Subject: t("email2Subject"),
+      email2Body: t("email2Body"),
+      email3From: t("email3From"),
+      email3Subject: t("email3Subject"),
+      email3Body: t("email3Body"),
+      prediction: t("prediction"),
+      optNone: t("optNone"),
+      optEmail1: t("optEmail1"),
+      optEmail2: t("optEmail2"),
+      optEmail3: t("optEmail3"),
+      run: t("run"),
+      runHint: t("runHint"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      assistantDid: t("assistantDid"),
+      actionSummarize: t("actionSummarize"),
+      actionForward: t("actionForward"),
+      actionDelete: t("actionDelete"),
+      hijackedMark: t("hijackedMark"),
+      yourPick: t("yourPick"),
+      truth: t("truth"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaWrongTitle: t("deltaWrongTitle"),
+      deltaWrongBody: t("deltaWrongBody"),
+    };
+    return (
+      <div className="mx-auto w-full max-w-4xl pt-4">
+        <PromptInjectionPlayground labels={labels} />
+      </div>
+    );
+  }
+
+  if (slug === "human-in-the-loop") {
+    const t = await getTranslations("experiments.humanInTheLoop");
     const labels = {
       label: t("label"),
       title: t("title"),
       situation: t("situation"),
       prediction: t("prediction"),
-      optSafe: t("optSafe"),
-      optRisky: t("optRisky"),
+      optSolo: t("optSolo"),
+      optHuman: t("optHuman"),
       run: t("run"),
       runHint: t("runHint"),
       resultsHeading: t("resultsHeading"),
       reshuffle: t("reshuffle"),
-      scenario1: t("scenario1"),
-      scenario1Answer: t("scenario1Answer"),
-      scenario1Why: t("scenario1Why"),
-      scenario2: t("scenario2"),
-      scenario2Answer: t("scenario2Answer"),
-      scenario2Why: t("scenario2Why"),
-      scenario3: t("scenario3"),
-      scenario3Answer: t("scenario3Answer"),
-      scenario3Why: t("scenario3Why"),
-      scenario4: t("scenario4"),
-      scenario4Answer: t("scenario4Answer"),
-      scenario4Why: t("scenario4Why"),
-      scenario5: t("scenario5"),
-      scenario5Answer: t("scenario5Answer"),
-      scenario5Why: t("scenario5Why"),
+      case1: t("case1"),
+      case2: t("case2"),
+      case3: t("case3"),
+      case4: t("case4"),
+      case5: t("case5"),
+      stakesLabel: t("stakesLabel"),
+      stakesLow: t("stakesLow"),
+      stakesHigh: t("stakesHigh"),
+      rubricHeading: t("rubricHeading"),
+      rubricBody: t("rubricBody"),
+      agreeLabel: t("agreeLabel"),
+      disagreeLabel: t("disagreeLabel"),
       scoreLabel: t("scoreLabel"),
       deltaRightTitle: t("deltaRightTitle"),
       deltaRightBody: t("deltaRightBody"),
@@ -334,7 +379,7 @@ export default async function ExperimentPage({
     };
     return (
       <div className="mx-auto w-full max-w-4xl pt-4">
-        <AISafetyPlayground labels={labels} />
+        <HumanInTheLoopPlayground labels={labels} />
       </div>
     );
   }

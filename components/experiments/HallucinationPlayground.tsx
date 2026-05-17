@@ -23,6 +23,7 @@ type Labels = {
   deltaWrongBody: string;
   whatToDo: string;
   tipsList: string;
+  recordedNote: string;
 };
 
 type Choice = "correct" | "wrong";
@@ -135,6 +136,9 @@ export function HallucinationPlayground({ labels }: { labels: Labels }) {
           {labels.title}
         </h1>
         <p className="max-w-2xl text-muted">{labels.situation}</p>
+        <p className="max-w-2xl text-[11px] italic text-muted/80">
+          {labels.recordedNote}
+        </p>
       </header>
 
       {/* prompt display */}

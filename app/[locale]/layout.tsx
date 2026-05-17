@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
 import { Header } from "@/components/Header";
+import Script from "next/script";
 
 const display = Playfair_Display({
   subsets: ["latin", "cyrillic"],
@@ -51,6 +52,14 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={display.variable}>
+      <head>
+        <Script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="c4a409df-dcf2-4cc6-a35d-96653950e02d"
+          strategy="afterInteractive"
+        />
+      </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
