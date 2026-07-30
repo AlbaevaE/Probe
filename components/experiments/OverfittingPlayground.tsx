@@ -42,8 +42,8 @@ const CURVES: Record<
   Choice,
   { color: string; dash?: string; label: string }
 > = {
-  linear: { color: "#4d6a23", label: "linear" },
-  quadratic: { color: "#9b3e14", label: "quadratic" },
+  linear: { color: "#2A7F8C", label: "linear" },
+  quadratic: { color: "#E05C4A", label: "quadratic" },
   poly9: { color: "#a83216", dash: "4 3", label: "poly9" },
 };
 
@@ -185,23 +185,23 @@ export function OverfittingPlayground({ labels }: { labels: Labels }) {
             y1={padT}
             x2={padL}
             y2={viewBox.h - padB}
-            stroke="#d6d0c8"
+            stroke="#E5DFD2"
           />
           <line
             x1={padL}
             y1={viewBox.h - padB}
             x2={viewBox.w - padR}
             y2={viewBox.h - padB}
-            stroke="#d6d0c8"
+            stroke="#E5DFD2"
           />
-          <text x={padL - 8} y={padT + 4} fontSize="13" fill="#6b5f54" textAnchor="end">
+          <text x={padL - 8} y={padT + 4} fontSize="13" fill="#8A8175" textAnchor="end">
             {labels.axesPrice}
           </text>
           <text
             x={viewBox.w - padR}
             y={viewBox.h - padB + 24}
             fontSize="13"
-            fill="#6b5f54"
+            fill="#8A8175"
             textAnchor="end"
           >
             {labels.axesArea}
@@ -228,7 +228,7 @@ export function OverfittingPlayground({ labels }: { labels: Labels }) {
               cx={sx(x)}
               cy={sy(train.ys[i])}
               r="5"
-              fill="#9b3e14"
+              fill="#E05C4A"
             />
           ))}
 
@@ -239,7 +239,7 @@ export function OverfittingPlayground({ labels }: { labels: Labels }) {
               cy={sy(test.ys[i])}
               r="4.5"
               fill="none"
-              stroke="#2c2523"
+              stroke="#241F1A"
               strokeWidth="1.5"
               style={{
                 opacity: testVisible ? 1 : 0,

@@ -166,13 +166,13 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
           style={{ fontFamily: 'ui-serif, "Iowan Old Style", Georgia, serif' }}
         >
           {/* layer labels */}
-          <text x={LAYERS_X[0]} y={30} fontSize="14" fill="#6b5f54" textAnchor="middle">
+          <text x={LAYERS_X[0]} y={30} fontSize="14" fill="#8A8175" textAnchor="middle">
             {labels.inputLabel}
           </text>
-          <text x={LAYERS_X[1]} y={30} fontSize="14" fill="#6b5f54" textAnchor="middle">
+          <text x={LAYERS_X[1]} y={30} fontSize="14" fill="#8A8175" textAnchor="middle">
             {labels.hiddenLabel}
           </text>
-          <text x={LAYERS_X[2]} y={30} fontSize="14" fill="#6b5f54" textAnchor="middle">
+          <text x={LAYERS_X[2]} y={30} fontSize="14" fill="#8A8175" textAnchor="middle">
             {labels.outputLabel}
           </text>
 
@@ -188,7 +188,7 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
                   y1={iy}
                   x2={LAYERS_X[1] - 18}
                   y2={hy}
-                  stroke={w > 0 ? "#4d6a23" : "#9b3e14"}
+                  stroke={w > 0 ? "#2A7F8C" : "#E05C4A"}
                   strokeWidth={Math.min(3, Math.abs(w) * 2 + 0.5)}
                   opacity={disabled ? 0.15 : 0.6}
                   style={{ transition: "opacity 300ms" }}
@@ -208,7 +208,7 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
                 y1={hy}
                 x2={LAYERS_X[2] - 18}
                 y2={OUTPUT_Y[0]}
-                stroke={w > 0 ? "#4d6a23" : "#9b3e14"}
+                stroke={w > 0 ? "#2A7F8C" : "#E05C4A"}
                 strokeWidth={Math.min(3, Math.abs(w) * 2 + 0.5)}
                 opacity={disabled ? 0.15 : 0.6}
                 style={{ transition: "opacity 300ms" }}
@@ -219,8 +219,8 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
           {/* input nodes */}
           {INPUT_Y.map((y, i) => (
             <g key={`in-${i}`}>
-              <circle cx={LAYERS_X[0]} cy={y} r="18" fill="#fafaf9" stroke="#9b3e14" strokeWidth="1.5" />
-              <text x={LAYERS_X[0]} y={y + 5} fontSize="14" fill="#2c2523" textAnchor="middle" fontWeight="600">
+              <circle cx={LAYERS_X[0]} cy={y} r="18" fill="#FFFDF8" stroke="#E05C4A" strokeWidth="1.5" />
+              <text x={LAYERS_X[0]} y={y + 5} fontSize="14" fill="#241F1A" textAnchor="middle" fontWeight="600">
                 {inputs[i]}
               </text>
             </g>
@@ -242,7 +242,7 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
                     cy={y}
                     r="24"
                     fill="none"
-                    stroke="#9b3e14"
+                    stroke="#E05C4A"
                     strokeWidth="2"
                     strokeDasharray="4 3"
                     opacity="0.6"
@@ -252,8 +252,8 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
                   cx={LAYERS_X[1]}
                   cy={y}
                   r="18"
-                  fill={disabled ? "#d6d0c8" : "#fafaf9"}
-                  stroke={disabled ? "#b8a379" : "#9b3e14"}
+                  fill={disabled ? "#E5DFD2" : "#FFFDF8"}
+                  stroke={disabled ? "#F2B134" : "#E05C4A"}
                   strokeWidth="1.5"
                   style={{ transition: "fill 300ms, stroke 300ms" }}
                 />
@@ -261,7 +261,7 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
                   x={LAYERS_X[1]}
                   y={y + 4}
                   fontSize="13"
-                  fill={disabled ? "#b8a379" : "#2c2523"}
+                  fill={disabled ? "#F2B134" : "#241F1A"}
                   textAnchor="middle"
                   fontWeight="600"
                   style={{ transition: "fill 300ms" }}
@@ -274,12 +274,12 @@ export function NeuralNetworkPlayground({ labels }: { labels: Labels }) {
 
           {/* output node */}
           <g>
-            <circle cx={LAYERS_X[2]} cy={OUTPUT_Y[0]} r="22" fill="#fafaf9" stroke="#4d6a23" strokeWidth="2" />
+            <circle cx={LAYERS_X[2]} cy={OUTPUT_Y[0]} r="22" fill="#FFFDF8" stroke="#2A7F8C" strokeWidth="2" />
             <text
               x={LAYERS_X[2]}
               y={OUTPUT_Y[0] + 5}
               fontSize="16"
-              fill="#2c2523"
+              fill="#241F1A"
               textAnchor="middle"
               fontWeight="700"
             >

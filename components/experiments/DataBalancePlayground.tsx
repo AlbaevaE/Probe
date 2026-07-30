@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import clsx from "clsx";
+import { mulberry32 } from "@/lib/rng";
 
 type Labels = {
   label: string;
@@ -16,6 +17,8 @@ type Labels = {
   reshuffle: string;
   groupA: string;
   groupB: string;
+  iconA: string;
+  iconB: string;
   accuracyLabel: string;
   deltaRightTitle: string;
   deltaRightBody: string;
@@ -25,65 +28,98 @@ type Labels = {
 
 type Choice = "yes" | "no";
 
-/* ── seeded RNG ─────────────────────────────────────────────── */
-function mulberry32(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
+export type Group = "A" | "B";
+export type Sample = { features: [number, number]; label: Group };
+
+/* ── the data ───────────────────────────────────────────────── */
+// Two genuinely distinguishable groups: same spread, different centres, with
+// enough overlap that the classifier has to weigh evidence rather than read
+// the answer off. Nothing here is rigged toward the majority — the imbalance
+// alone does the damage, which is the whole point of the experiment.
+export const TRAIN_MAJORITY = 36;
+export const TRAIN_MINORITY = 4;
+export const TEST_PER_GROUP = 10;
+const CENTER_A = 4.0;
+const CENTER_B = 6.8;
+const SPREAD = 1.8;
+
+function gauss(rng: () => number, mean: number, std: number): number {
+  const u = 1 - rng();
+  const v = rng();
+  return mean + Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v) * std;
 }
 
-type Sample = { features: number[]; label: "A" | "B" };
+function draw(rng: () => number, n: number, label: Group): Sample[] {
+  const center = label === "A" ? CENTER_A : CENTER_B;
+  return Array.from({ length: n }, () => ({
+    features: [gauss(rng, center, SPREAD), gauss(rng, center, SPREAD)] as [number, number],
+    label,
+  }));
+}
 
-function generateData(seed: number) {
+// Training counts are parameters so the balanced counterfactual (what the same
+// classifier does on the same distributions when the data is fair) is testable.
+export function generateData(
+  seed: number,
+  majority: number = TRAIN_MAJORITY,
+  minority: number = TRAIN_MINORITY,
+) {
   const rng = mulberry32(seed);
-
-  // Training set: 90% group A, 10% group B (imbalanced!)
-  const train: Sample[] = [];
-  for (let i = 0; i < 36; i++) {
-    train.push({
-      features: [rng() * 10, rng() * 10],
-      label: "A",
-    });
-  }
-  for (let i = 0; i < 4; i++) {
-    train.push({
-      features: [rng() * 10, rng() * 10],
-      label: "B",
-    });
-  }
-
-  // Test set: 50/50 balanced
-  const test: Sample[] = [];
-  for (let i = 0; i < 10; i++) {
-    test.push({ features: [rng() * 10, rng() * 10], label: "A" });
-  }
-  for (let i = 0; i < 10; i++) {
-    test.push({ features: [rng() * 10, rng() * 10], label: "B" });
-  }
-
+  const train = [...draw(rng, majority, "A"), ...draw(rng, minority, "B")];
+  // Test set is always balanced — the model is judged on both groups equally.
+  const test = [...draw(rng, TEST_PER_GROUP, "A"), ...draw(rng, TEST_PER_GROUP, "B")];
   return { train, test };
 }
 
-// Simulate a "lazy" classifier that learned to always predict the majority class
-function predict(train: Sample[]): "A" | "B" {
-  const aCount = train.filter((s) => s.label === "A").length;
-  return aCount >= train.length / 2 ? "A" : "B";
+/* ── the model ──────────────────────────────────────────────── */
+// Gaussian naive Bayes: per-group mean and variance for each feature, plus the
+// class prior. The prior is where the imbalance bites — with 36 vs 4 examples
+// it adds log(9) ≈ 2.2 in favour of the majority, and near the boundary that
+// outweighs what the features actually say.
+export type ClassStats = Record<Group, { mean: number[]; variance: number[]; prior: number }>;
+
+// Floor on the variance: with 4 examples the minority estimate can collapse to
+// near zero and make the likelihood explode. Standard smoothing, not a thumb
+// on the scale — it makes the minority's bell wider, i.e. more forgiving.
+const VARIANCE_FLOOR = 0.35;
+
+export function trainNaiveBayes(train: Sample[]): ClassStats {
+  const fit = (group: Group) => {
+    const rows = train.filter((s) => s.label === group);
+    const mean = [0, 1].map(
+      (j) => rows.reduce((acc, s) => acc + s.features[j], 0) / rows.length,
+    );
+    const variance = [0, 1].map((j) =>
+      Math.max(
+        VARIANCE_FLOOR,
+        rows.reduce((acc, s) => acc + (s.features[j] - mean[j]) ** 2, 0) / rows.length,
+      ),
+    );
+    return { mean, variance, prior: rows.length / train.length };
+  };
+  return { A: fit("A"), B: fit("B") };
 }
 
-function accuracy(prediction: "A" | "B", test: Sample[], group: "A" | "B") {
-  const groupSamples = test.filter((s) => s.label === group);
-  if (groupSamples.length === 0) return 0;
-  const correct = groupSamples.filter((s) => prediction === s.label).length;
-  return Math.round((correct / groupSamples.length) * 100);
+export function classify(stats: ClassStats, features: [number, number]): Group {
+  const logScore = (group: Group) => {
+    const { mean, variance, prior } = stats[group];
+    let score = Math.log(prior);
+    for (let j = 0; j < 2; j++) {
+      score +=
+        -0.5 * Math.log(2 * Math.PI * variance[j]) -
+        (features[j] - mean[j]) ** 2 / (2 * variance[j]);
+    }
+    return score;
+  };
+  return logScore("A") >= logScore("B") ? "A" : "B";
 }
 
-const BAR_W = 200;
-const BAR_H = 24;
+export function accuracy(stats: ClassStats, test: Sample[], group: Group) {
+  const rows = test.filter((s) => s.label === group);
+  if (rows.length === 0) return 0;
+  const correct = rows.filter((s) => classify(stats, s.features) === group).length;
+  return Math.round((correct / rows.length) * 100);
+}
 
 export function DataBalancePlayground({ labels }: { labels: Labels }) {
   const [seed, setSeed] = useState(42);
@@ -91,12 +127,12 @@ export function DataBalancePlayground({ labels }: { labels: Labels }) {
   const [phase, setPhase] = useState<"idle" | "revealed">("idle");
 
   const { train, test } = useMemo(() => generateData(seed), [seed]);
-  const modelPrediction = useMemo(() => predict(train), [train]);
-  const accA = useMemo(() => accuracy(modelPrediction, test, "A"), [modelPrediction, test]);
-  const accB = useMemo(() => accuracy(modelPrediction, test, "B"), [modelPrediction, test]);
+  const stats = useMemo(() => trainNaiveBayes(train), [train]);
+  const accA = useMemo(() => accuracy(stats, test, "A"), [stats, test]);
+  const accB = useMemo(() => accuracy(stats, test, "B"), [stats, test]);
 
-  // The model always predicts A, so it gets ~100% on A and ~0% on B
-  // The "fair" answer is "no" — it won't be fair to both groups
+  // The imbalance costs the minority group most of its accuracy, so "no" is
+  // normally right — but the verdict is read off the actual run, not assumed.
   const isFair = Math.abs(accA - accB) < 20;
   const correctAnswer: Choice = isFair ? "yes" : "no";
 
@@ -136,15 +172,13 @@ export function DataBalancePlayground({ labels }: { labels: Labels }) {
               <span className="text-sm font-semibold">{labels.groupA}</span>
               <span className="text-xs text-muted">({aCountTrain})</span>
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1.5 text-lg leading-none">
               {train
                 .filter((s) => s.label === "A")
                 .map((_, i) => (
-                  <div
-                    key={`a-${i}`}
-                    className="h-4 w-4 rounded-full"
-                    style={{ background: "#9b3e14" }}
-                  />
+                  <span key={`a-${i}`} aria-hidden>
+                    {labels.iconA}
+                  </span>
                 ))}
             </div>
           </div>
@@ -153,15 +187,13 @@ export function DataBalancePlayground({ labels }: { labels: Labels }) {
               <span className="text-sm font-semibold">{labels.groupB}</span>
               <span className="text-xs text-muted">({bCountTrain})</span>
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1.5 text-lg leading-none">
               {train
                 .filter((s) => s.label === "B")
                 .map((_, i) => (
-                  <div
-                    key={`b-${i}`}
-                    className="h-4 w-4 rounded-full"
-                    style={{ background: "#2d6a9f" }}
-                  />
+                  <span key={`b-${i}`} aria-hidden>
+                    {labels.iconB}
+                  </span>
                 ))}
             </div>
           </div>
@@ -225,7 +257,7 @@ export function DataBalancePlayground({ labels }: { labels: Labels }) {
               <div className="h-5 overflow-hidden rounded-full bg-bg/60">
                 <div
                   className="h-full rounded-full transition-all duration-700"
-                  style={{ width: `${accA}%`, background: "#4d6a23" }}
+                  style={{ width: `${accA}%`, background: "#2A7F8C" }}
                 />
               </div>
             </div>
@@ -237,7 +269,7 @@ export function DataBalancePlayground({ labels }: { labels: Labels }) {
               <div className="h-5 overflow-hidden rounded-full bg-bg/60">
                 <div
                   className="h-full rounded-full transition-all duration-700"
-                  style={{ width: `${accB}%`, background: "#9b3e14" }}
+                  style={{ width: `${accB}%`, background: "#E05C4A" }}
                 />
               </div>
             </div>

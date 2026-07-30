@@ -159,7 +159,7 @@ export function DecisionBoundaryPlayground({ labels }: { labels: Labels }) {
             return (
               <line
                 {...bl}
-                stroke="#9b3e14"
+                stroke="#E05C4A"
                 strokeWidth="2"
                 strokeDasharray="6 4"
                 opacity="0.7"
@@ -171,7 +171,7 @@ export function DecisionBoundaryPlayground({ labels }: { labels: Labels }) {
             return (
               <line
                 {...bl}
-                stroke="#4d6a23"
+                stroke="#2A7F8C"
                 strokeWidth="2"
                 opacity="0.7"
               />
@@ -185,7 +185,7 @@ export function DecisionBoundaryPlayground({ labels }: { labels: Labels }) {
               cx={sx(p.x)}
               cy={sy(p.y)}
               r="7"
-              fill={p.cls === "A" ? "#9b3e14" : "#2d6a9f"}
+              fill={p.cls === "A" ? "#E05C4A" : "#7B5EA7"}
               opacity={0.8}
             />
           ))}

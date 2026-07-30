@@ -1,17 +1,24 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Playfair_Display } from "next/font/google";
+import { Unbounded, Rubik } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import Script from "next/script";
 
-const display = Playfair_Display({
+const display = Unbounded({
   subsets: ["latin", "cyrillic"],
-  weight: ["600", "700", "800"],
+  weight: ["400", "600", "700", "800"],
   variable: "--font-display",
+});
+
+const body = Rubik({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
 });
 
 export function generateStaticParams() {
@@ -51,7 +58,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={display.variable}>
+    <html lang={locale} className={`${display.variable} ${body.variable}`}>
       <head>
         <Script
           defer
@@ -60,12 +67,11 @@ export default async function LocaleLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body>
+      <body className="flex min-h-dvh flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
-          <main className="mx-auto w-full max-w-6xl px-6 pb-20 pt-6">
-            {children}
-          </main>
+          <main className="flex-1">{children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

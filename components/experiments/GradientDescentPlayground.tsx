@@ -188,12 +188,12 @@ export function GradientDescentPlayground({ labels }: { labels: Labels }) {
           onClick={handleSvgClick}
         >
           {/* landscape */}
-          <path d={landscapePath} fill="none" stroke="#d6d0c8" strokeWidth="2.5" />
+          <path d={landscapePath} fill="none" stroke="#E5DFD2" strokeWidth="2.5" />
 
           {/* fill under the curve */}
           <path
             d={`${landscapePath} L ${sx(X_MAX)} ${sy(Y_MIN)} L ${sx(X_MIN)} ${sy(Y_MIN)} Z`}
-            fill="#d6d0c8"
+            fill="#E5DFD2"
             opacity="0.15"
           />
 
@@ -205,7 +205,7 @@ export function GradientDescentPlayground({ labels }: { labels: Labels }) {
                 cx={sx(bx)}
                 cy={sy(landscape(bx))}
                 r="2"
-                fill="#9b3e14"
+                fill="#E05C4A"
                 opacity={0.3}
               />
             ))}
@@ -215,8 +215,8 @@ export function GradientDescentPlayground({ labels }: { labels: Labels }) {
             cx={sx(currentBallX)}
             cy={sy(landscape(currentBallX))}
             r="9"
-            fill="#9b3e14"
-            stroke="#fafaf9"
+            fill="#E05C4A"
+            stroke="#FFFDF8"
             strokeWidth="2"
             style={{ transition: phase === "idle" ? "cx 200ms, cy 200ms" : "none" }}
           />
@@ -229,14 +229,14 @@ export function GradientDescentPlayground({ labels }: { labels: Labels }) {
                 y1={sy(landscape(GLOBAL_MIN_X)) + 12}
                 x2={sx(GLOBAL_MIN_X)}
                 y2={sy(landscape(GLOBAL_MIN_X)) + 30}
-                stroke="#4d6a23"
+                stroke="#2A7F8C"
                 strokeWidth="1.5"
               />
               <text
                 x={sx(GLOBAL_MIN_X)}
                 y={sy(landscape(GLOBAL_MIN_X)) + 42}
                 fontSize="12"
-                fill="#4d6a23"
+                fill="#2A7F8C"
                 textAnchor="middle"
                 fontWeight="600"
               >

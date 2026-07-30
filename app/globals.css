@@ -8,12 +8,87 @@
   }
   body {
     @apply bg-bg text-fg antialiased;
-    font-family: ui-serif, "Iowan Old Style", "Palatino Linotype", "Hoefler Text",
-      Palatino, Georgia, serif;
-    font-feature-settings: "ss01", "cv11";
+    font-family: var(--font-body), Rubik, system-ui, sans-serif;
   }
   a {
     @apply underline-offset-4;
+  }
+}
+
+/* landing ("observatory") animations, from the design explorations */
+@keyframes pFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(6deg);
+  }
+}
+@keyframes pFloat2 {
+  0%,
+  100% {
+    transform: translateY(0) rotate(12deg);
+  }
+  50% {
+    transform: translateY(14px) rotate(4deg);
+  }
+}
+@keyframes pSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-26px);
+  }
+}
+@keyframes pPulse {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+@keyframes pDash {
+  to {
+    stroke-dashoffset: -120;
+  }
+}
+@keyframes pOrbit {
+  from {
+    transform: rotate(0deg) translateX(150px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(150px) rotate(-360deg);
+  }
+}
+@keyframes pOrbit2 {
+  from {
+    transform: rotate(120deg) translateX(210px) rotate(-120deg);
+  }
+  to {
+    transform: rotate(480deg) translateX(210px) rotate(-480deg);
+  }
+}
+@keyframes pOrbit3 {
+  from {
+    transform: rotate(240deg) translateX(110px) rotate(-240deg);
+  }
+  to {
+    transform: rotate(600deg) translateX(110px) rotate(-600deg);
   }
 }
 
@@ -44,16 +119,16 @@
 
 .react-flow__controls {
   @apply !border !border-border !shadow-none;
-  background: #fafaf9 !important;
+  background: #fffdf8 !important;
 }
 .react-flow__controls-button {
-  background: #fafaf9 !important;
-  border-bottom: 1px solid #d6d0c8 !important;
-  fill: #2c2523 !important;
-  color: #2c2523 !important;
+  background: #fffdf8 !important;
+  border-bottom: 1px solid #e5dfd2 !important;
+  fill: #241f1a !important;
+  color: #241f1a !important;
 }
 .react-flow__controls-button:hover {
-  background: #f5f3f2 !important;
+  background: #f3ede2 !important;
 }
 .react-flow__attribution {
   display: none !important;

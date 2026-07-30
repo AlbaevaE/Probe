@@ -1,17 +1,19 @@
 import { test, expect } from "@playwright/test";
 
-test("experiment flow: home → overfitting → predict → run → results → reshuffle", async ({
+test("experiment flow: landing → AI chapter → overfitting → predict → run → results → reshuffle", async ({
   page,
 }) => {
-  // 1. Navigate to home page
+  // 1. Navigate to the landing
   await page.goto("/");
   await expect(page).toHaveURL(/\/ru$/);
 
-  // 2. Verify experiment cards are visible
+  // 2. Open the AI chapter from the chapter list
+  await page.getByTestId("chapter-ai").click();
+  await expect(page).toHaveURL(/chapters\/ai/);
+
+  // 3. Verify experiment cards are visible, then open overfitting
   await expect(page.getByTestId("experiment-card-overfitting")).toBeVisible();
   await expect(page.getByTestId("experiment-card-knn")).toBeVisible();
-
-  // 3. Click the overfitting experiment card
   await page.getByTestId("experiment-card-overfitting").click();
   await expect(page).toHaveURL(/experiments\/overfitting/);
 
@@ -40,18 +42,36 @@ test("experiment flow: home → overfitting → predict → run → results → 
   await expect(page.getByTestId("option-linear")).toBeEnabled();
 });
 
-test("home page shows themed group headings", async ({ page }) => {
+test("landing lists the four chapters", async ({ page }) => {
   await page.goto("/ru");
 
-  // Verify all 4 group headings are visible
+  await expect(page.getByTestId("chapter-math")).toBeVisible();
+  await expect(page.getByTestId("chapter-geometry")).toBeVisible();
+  await expect(page.getByTestId("chapter-physics")).toBeVisible();
+  await expect(page.getByTestId("chapter-ai")).toBeVisible();
+});
+
+test("AI chapter shows themed group headings and cards", async ({ page }) => {
+  await page.goto("/ru/chapters/ai");
+
   await expect(page.getByText("Основы машинного обучения")).toBeVisible();
   await expect(page.getByText("Нейросети и данные")).toBeVisible();
   await expect(page.getByText("Как устроены LLM")).toBeVisible();
-  await expect(page.getByText("Ответственный ИИ")).toBeVisible();
+  await expect(page.getByText("Ответственный ИИ", { exact: true })).toBeVisible();
 
-  // Verify all 9 experiment cards are present
   await expect(page.getByTestId("experiment-card-overfitting")).toBeVisible();
   await expect(page.getByTestId("experiment-card-neural-network")).toBeVisible();
   await expect(page.getByTestId("experiment-card-llm-pipeline")).toBeVisible();
-  await expect(page.getByTestId("experiment-card-ai-safety")).toBeVisible();
+  await expect(page.getByTestId("experiment-card-prompt-injection")).toBeVisible();
+});
+
+test("science chapters list their experiments", async ({ page }) => {
+  await page.goto("/ru/chapters/math");
+  await expect(page.getByTestId("experiment-card-dice-average")).toBeVisible();
+  await expect(page.getByTestId("experiment-card-galton-board")).toBeVisible();
+  await expect(page.getByTestId("experiment-card-birthday-paradox")).toBeVisible();
+
+  await page.goto("/ru/chapters/physics");
+  await expect(page.getByTestId("experiment-card-pendulum")).toBeVisible();
+  await expect(page.getByTestId("experiment-card-braking-distance")).toBeVisible();
 });

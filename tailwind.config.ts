@@ -9,23 +9,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: "#f5f3f2",
-        surface: "#fafaf9",
-        border: "#d6d0c8",
-        muted: "#6b5f54",
-        fg: "#2c2523",
-        accent: "#9b3e14",
-        done: "#4d6a23",
-        locked: "#b8a379",
+        // light surfaces (chapter/experiment pages)
+        bg: "#FFFDF8",
+        surface: "#F3EDE2",
+        border: "#E5DFD2",
+        muted: "#8A8175",
+        fg: "#241F1A",
+        accent: "#E05C4A",
+        done: "#2A7F8C",
+        locked: "#F2B134",
+        // dark landing ("observatory") palette
+        night: "#14162B",
+        cream: "#F5F3EC",
+        coral: "#FF7A66",
+        sun: "#FFC94D",
+        sky: "#4FC1CE",
+        lilac: "#A88BE0",
+        // light-page chapter accents
+        teal: "#2A7F8C",
+        gold: "#F2B134",
+        plum: "#7B5EA7",
       },
       fontFamily: {
-        sans: ["ui-sans-serif", "system-ui", "sans-serif"],
-        display: [
-          "var(--font-display)",
-          '"Playfair Display"',
-          "Georgia",
-          "serif",
-        ],
+        sans: ["var(--font-body)", "Rubik", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Unbounded", "sans-serif"],
       },
     },
   },

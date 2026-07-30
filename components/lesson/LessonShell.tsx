@@ -95,7 +95,7 @@ export function LessonShell({
   }, [done, allLessons, frontmatter.id]);
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-6 pt-4">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 pb-20 pt-10">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-4 text-sm text-muted">
           <Link href="/lessons" className="no-underline hover:text-fg">

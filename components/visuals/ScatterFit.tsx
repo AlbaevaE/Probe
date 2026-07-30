@@ -24,11 +24,11 @@ export function ScatterFit() {
     <svg viewBox="0 0 280 200" className="h-auto w-full">
       <defs>
         <style>{`
-          .axis { stroke: #d6d0c8; stroke-width: 1; }
-          .tick { stroke: #d6d0c8; stroke-width: 1; }
-          .label { font: 500 10px ui-serif, "Iowan Old Style", Georgia, serif; fill: #6b5f54; }
-          .point { fill: #9b3e14; }
-          .fit { stroke: #4d6a23; stroke-width: 2; fill: none; }
+          .axis { stroke: #E5DFD2; stroke-width: 1; }
+          .tick { stroke: #E5DFD2; stroke-width: 1; }
+          .label { font: 500 10px ui-serif, "Iowan Old Style", Georgia, serif; fill: #8A8175; }
+          .point { fill: #E05C4A; }
+          .fit { stroke: #2A7F8C; stroke-width: 2; fill: none; }
         `}</style>
       </defs>
 

@@ -39,7 +39,7 @@ export function NeuralNet() {
           y1={e.y1}
           x2={e.x2}
           y2={e.y2}
-          stroke="#d6d0c8"
+          stroke="#E5DFD2"
           strokeWidth="0.8"
           opacity="0.85"
         />
@@ -51,8 +51,8 @@ export function NeuralNet() {
               cx={n.x}
               cy={n.y}
               r="8"
-              fill="#fafaf9"
-              stroke="#9b3e14"
+              fill="#FFFDF8"
+              stroke="#E05C4A"
               strokeWidth="1.5"
             />
           </g>
@@ -62,7 +62,7 @@ export function NeuralNet() {
         x={cols[0][0].x - 6}
         y="14"
         fontSize="10"
-        fill="#6b5f54"
+        fill="#8A8175"
         fontFamily='ui-serif, "Iowan Old Style", Georgia, serif'
       >
         вход
@@ -71,7 +71,7 @@ export function NeuralNet() {
         x={cols[1][0].x - 14}
         y="14"
         fontSize="10"
-        fill="#6b5f54"
+        fill="#8A8175"
         fontFamily='ui-serif, "Iowan Old Style", Georgia, serif'
       >
         скрытый
@@ -80,7 +80,7 @@ export function NeuralNet() {
         x={cols[2][0].x - 14}
         y="14"
         fontSize="10"
-        fill="#6b5f54"
+        fill="#8A8175"
         fontFamily='ui-serif, "Iowan Old Style", Georgia, serif'
       >
         скрытый
@@ -89,7 +89,7 @@ export function NeuralNet() {
         x={cols[cols.length - 1][0].x - 10}
         y="14"
         fontSize="10"
-        fill="#6b5f54"
+        fill="#8A8175"
         fontFamily='ui-serif, "Iowan Old Style", Georgia, serif'
       >
         выход

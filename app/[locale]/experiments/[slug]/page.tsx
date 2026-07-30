@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ExperimentShell } from "@/components/ExperimentShell";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { OverfittingPlayground } from "@/components/experiments/OverfittingPlayground";
@@ -11,6 +12,18 @@ import { LLMPipelinePlayground } from "@/components/experiments/LLMPipelinePlayg
 import { HallucinationPlayground } from "@/components/experiments/HallucinationPlayground";
 import { PromptInjectionPlayground } from "@/components/experiments/PromptInjectionPlayground";
 import { HumanInTheLoopPlayground } from "@/components/experiments/HumanInTheLoopPlayground";
+import { TemperaturePlayground } from "@/components/experiments/TemperaturePlayground";
+import { RetrievalPlayground } from "@/components/experiments/RetrievalPlayground";
+import { TokenizerPlayground } from "@/components/experiments/TokenizerPlayground";
+import { GaltonBoardPlayground } from "@/components/experiments/GaltonBoardPlayground";
+import { MonteCarloPiPlayground } from "@/components/experiments/MonteCarloPiPlayground";
+import { PendulumPlayground } from "@/components/experiments/PendulumPlayground";
+import { DiceAveragePlayground } from "@/components/experiments/DiceAveragePlayground";
+import { BirthdayParadoxPlayground } from "@/components/experiments/BirthdayParadoxPlayground";
+import { EarthRopePlayground } from "@/components/experiments/EarthRopePlayground";
+import { AreaScalingPlayground } from "@/components/experiments/AreaScalingPlayground";
+import { ProjectileAnglePlayground } from "@/components/experiments/ProjectileAnglePlayground";
+import { BrakingDistancePlayground } from "@/components/experiments/BrakingDistancePlayground";
 
 const SLUGS = [
   "overfitting",
@@ -23,6 +36,18 @@ const SLUGS = [
   "hallucination",
   "prompt-injection",
   "human-in-the-loop",
+  "temperature",
+  "retrieval",
+  "tokenizer",
+  "galton-board",
+  "monte-carlo-pi",
+  "pendulum",
+  "dice-average",
+  "birthday-paradox",
+  "earth-rope",
+  "area-scaling",
+  "projectile-angle",
+  "braking-distance",
 ] as const;
 
 type Slug = (typeof SLUGS)[number];
@@ -78,9 +103,9 @@ export default async function ExperimentPage({
     const t = await getTranslations("experiments.overfitting");
     const labels = await overfittingLabels(t);
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <OverfittingPlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -108,9 +133,9 @@ export default async function ExperimentPage({
       deltaWrongBody: t("deltaWrongBody"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <NeuralNetworkPlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -134,9 +159,9 @@ export default async function ExperimentPage({
       deltaWrongBody: t("deltaWrongBody"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <KNNPlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -160,9 +185,9 @@ export default async function ExperimentPage({
       deltaWrongBody: t("deltaWrongBody"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <GradientDescentPlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -181,6 +206,8 @@ export default async function ExperimentPage({
       reshuffle: t("reshuffle"),
       groupA: t("groupA"),
       groupB: t("groupB"),
+      iconA: t("iconA"),
+      iconB: t("iconB"),
       accuracyLabel: t("accuracyLabel"),
       deltaRightTitle: t("deltaRightTitle"),
       deltaRightBody: t("deltaRightBody"),
@@ -188,9 +215,9 @@ export default async function ExperimentPage({
       deltaWrongBody: t("deltaWrongBody"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <DataBalancePlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -217,9 +244,9 @@ export default async function ExperimentPage({
       deltaAlmostBody: t("deltaAlmostBody"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <DecisionBoundaryPlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -229,6 +256,7 @@ export default async function ExperimentPage({
       label: t("label"),
       title: t("title"),
       situation: t("situation"),
+      samples: t.raw("samples") as { input: string; output: string }[],
       prediction: t("prediction"),
       optOnce: t("optOnce"),
       optOnceHint: t("optOnceHint"),
@@ -264,9 +292,9 @@ export default async function ExperimentPage({
       deltaWrongBody: t("deltaWrongBody"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <LLMPipelinePlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -295,9 +323,9 @@ export default async function ExperimentPage({
       recordedNote: t("recordedNote"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <HallucinationPlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -340,9 +368,9 @@ export default async function ExperimentPage({
       deltaWrongBody: t("deltaWrongBody"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <PromptInjectionPlayground labels={labels} />
-      </div>
+      </ExperimentShell>
     );
   }
 
@@ -378,9 +406,412 @@ export default async function ExperimentPage({
       deltaWrongBody: t("deltaWrongBody"),
     };
     return (
-      <div className="mx-auto w-full max-w-4xl pt-4">
+      <ExperimentShell slug={slug}>
         <HumanInTheLoopPlayground labels={labels} />
-      </div>
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "temperature") {
+    const t = await getTranslations("experiments.temperature");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      recordedNote: t("recordedNote"),
+      contextLabel: t("contextLabel"),
+      contextSentence: t("contextSentence"),
+      word1: t("word1"),
+      word2: t("word2"),
+      word3: t("word3"),
+      word4: t("word4"),
+      word5: t("word5"),
+      word6: t("word6"),
+      prediction: t("prediction"),
+      optPrecise: t("optPrecise"),
+      optCreative: t("optCreative"),
+      optRandom: t("optRandom"),
+      run: t("run"),
+      runHint: t("runHint"),
+      resultsHeading: t("resultsHeading"),
+      samplesNote: t("samplesNote"),
+      tempLabel: t("tempLabel"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaAlmostTitle: t("deltaAlmostTitle"),
+      deltaAlmostBody: t("deltaAlmostBody"),
+      deltaWrongTitle: t("deltaWrongTitle"),
+      deltaWrongBody: t("deltaWrongBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <TemperaturePlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "retrieval") {
+    const t = await getTranslations("experiments.retrieval");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      kbHeading: t("kbHeading"),
+      doc1Title: t("doc1Title"),
+      doc1Body: t("doc1Body"),
+      doc2Title: t("doc2Title"),
+      doc2Body: t("doc2Body"),
+      doc3Title: t("doc3Title"),
+      doc3Body: t("doc3Body"),
+      queryLabel: t("queryLabel"),
+      query: t("query"),
+      prediction: t("prediction"),
+      optDoc1: t("optDoc1"),
+      optDoc2: t("optDoc2"),
+      optDoc3: t("optDoc3"),
+      run: t("run"),
+      runHint: t("runHint"),
+      resultsHeading: t("resultsHeading"),
+      matchesLabel: t("matchesLabel"),
+      pickedLabel: t("pickedLabel"),
+      assistantAnswerLabel: t("assistantAnswerLabel"),
+      assistantAnswer: t("assistantAnswer"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaMeaningTitle: t("deltaMeaningTitle"),
+      deltaMeaningBody: t("deltaMeaningBody"),
+      deltaWrongTitle: t("deltaWrongTitle"),
+      deltaWrongBody: t("deltaWrongBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <RetrievalPlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "tokenizer") {
+    const t = await getTranslations("experiments.tokenizer");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      trainNote: t("trainNote"),
+      msgEnHeading: t("msgEnHeading"),
+      msgLocalHeading: t("msgLocalHeading"),
+      msgEn: t("msgEn"),
+      msgLocal: t("msgLocal"),
+      charsLabel: t("charsLabel"),
+      tokensLabel: t("tokensLabel"),
+      prediction: t("prediction"),
+      optEn: t("optEn"),
+      optLocal: t("optLocal"),
+      optEqual: t("optEqual"),
+      run: t("run"),
+      runHint: t("runHint"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaWrongEnTitle: t("deltaWrongEnTitle"),
+      deltaWrongEnBody: t("deltaWrongEnBody"),
+      deltaWrongEqualTitle: t("deltaWrongEqualTitle"),
+      deltaWrongEqualBody: t("deltaWrongEqualBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <TokenizerPlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "galton-board") {
+    const t = await getTranslations("experiments.galtonBoard");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      prediction: t("prediction"),
+      optFlat: t("optFlat"),
+      optBell: t("optBell"),
+      optEdges: t("optEdges"),
+      run: t("run"),
+      runHint: t("runHint"),
+      ballsLabel: t("ballsLabel"),
+      resultsHeading: t("resultsHeading"),
+      pathsNote: t("pathsNote"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaFlatTitle: t("deltaFlatTitle"),
+      deltaFlatBody: t("deltaFlatBody"),
+      deltaEdgesTitle: t("deltaEdgesTitle"),
+      deltaEdgesBody: t("deltaEdgesBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <GaltonBoardPlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "monte-carlo-pi") {
+    const t = await getTranslations("experiments.monteCarloPi");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      prediction: t("prediction"),
+      optHalf: t("optHalf"),
+      optMost: t("optMost"),
+      optAll: t("optAll"),
+      run: t("run"),
+      runHint: t("runHint"),
+      totalLabel: t("totalLabel"),
+      insideLabel: t("insideLabel"),
+      shareLabel: t("shareLabel"),
+      estimateLabel: t("estimateLabel"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaHalfTitle: t("deltaHalfTitle"),
+      deltaHalfBody: t("deltaHalfBody"),
+      deltaAllTitle: t("deltaAllTitle"),
+      deltaAllBody: t("deltaAllBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <MonteCarloPiPlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "pendulum") {
+    const t = await getTranslations("experiments.pendulum");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      prediction: t("prediction"),
+      optHeavy: t("optHeavy"),
+      optLight: t("optLight"),
+      optSame: t("optSame"),
+      run: t("run"),
+      runHint: t("runHint"),
+      lightLabel: t("lightLabel"),
+      heavyLabel: t("heavyLabel"),
+      swingsLabel: t("swingsLabel"),
+      timeLabel: t("timeLabel"),
+      periodLabel: t("periodLabel"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaHeavyTitle: t("deltaHeavyTitle"),
+      deltaHeavyBody: t("deltaHeavyBody"),
+      deltaLightTitle: t("deltaLightTitle"),
+      deltaLightBody: t("deltaLightBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <PendulumPlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "dice-average") {
+    const t = await getTranslations("experiments.diceAverage");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      prediction: t("prediction"),
+      optWander: t("optWander"),
+      optSettle: t("optSettle"),
+      optHot: t("optHot"),
+      run: t("run"),
+      runHint: t("runHint"),
+      rollsLabel: t("rollsLabel"),
+      lastRollLabel: t("lastRollLabel"),
+      meanLabel: t("meanLabel"),
+      first10Label: t("first10Label"),
+      finalLabel: t("finalLabel"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaWanderTitle: t("deltaWanderTitle"),
+      deltaWanderBody: t("deltaWanderBody"),
+      deltaHotTitle: t("deltaHotTitle"),
+      deltaHotBody: t("deltaHotBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <DiceAveragePlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "birthday-paradox") {
+    const t = await getTranslations("experiments.birthdayParadox");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      prediction: t("prediction"),
+      optRare: t("optRare"),
+      optHalf: t("optHalf"),
+      optAlways: t("optAlways"),
+      run: t("run"),
+      runHint: t("runHint"),
+      classesLabel: t("classesLabel"),
+      matchLabel: t("matchLabel"),
+      legendMatch: t("legendMatch"),
+      legendNone: t("legendNone"),
+      classLabel: t("classLabel"),
+      yearLabel: t("yearLabel"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaRareTitle: t("deltaRareTitle"),
+      deltaRareBody: t("deltaRareBody"),
+      deltaAlwaysTitle: t("deltaAlwaysTitle"),
+      deltaAlwaysBody: t("deltaAlwaysBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <BirthdayParadoxPlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "earth-rope") {
+    const t = await getTranslations("experiments.earthRope");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      scaleNote: t("scaleNote"),
+      prediction: t("prediction"),
+      optHair: t("optHair"),
+      optCat: t("optCat"),
+      optHouse: t("optHouse"),
+      run: t("run"),
+      runHint: t("runHint"),
+      earthLabel: t("earthLabel"),
+      ballLabel: t("ballLabel"),
+      addedLabel: t("addedLabel"),
+      gapLabel: t("gapLabel"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaHairTitle: t("deltaHairTitle"),
+      deltaHairBody: t("deltaHairBody"),
+      deltaHouseTitle: t("deltaHouseTitle"),
+      deltaHouseBody: t("deltaHouseBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <EarthRopePlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "area-scaling") {
+    const t = await getTranslations("experiments.areaScaling");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      prediction: t("prediction"),
+      optTwo: t("optTwo"),
+      optThree: t("optThree"),
+      optFour: t("optFour"),
+      run: t("run"),
+      runHint: t("runHint"),
+      smallLabel: t("smallLabel"),
+      bigLabel: t("bigLabel"),
+      cellsLabel: t("cellsLabel"),
+      ratioLabel: t("ratioLabel"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaTwoTitle: t("deltaTwoTitle"),
+      deltaTwoBody: t("deltaTwoBody"),
+      deltaThreeTitle: t("deltaThreeTitle"),
+      deltaThreeBody: t("deltaThreeBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <AreaScalingPlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "projectile-angle") {
+    const t = await getTranslations("experiments.projectileAngle");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      prediction: t("prediction"),
+      opt30: t("opt30"),
+      opt45: t("opt45"),
+      opt60: t("opt60"),
+      run: t("run"),
+      runHint: t("runHint"),
+      rangeLabel: t("rangeLabel"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      delta30Title: t("delta30Title"),
+      delta30Body: t("delta30Body"),
+      delta60Title: t("delta60Title"),
+      delta60Body: t("delta60Body"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <ProjectileAnglePlayground labels={labels} />
+      </ExperimentShell>
+    );
+  }
+
+  if (slug === "braking-distance") {
+    const t = await getTranslations("experiments.brakingDistance");
+    const labels = {
+      label: t("label"),
+      title: t("title"),
+      situation: t("situation"),
+      prediction: t("prediction"),
+      optTwo: t("optTwo"),
+      optThree: t("optThree"),
+      optFour: t("optFour"),
+      run: t("run"),
+      runHint: t("runHint"),
+      slowLabel: t("slowLabel"),
+      fastLabel: t("fastLabel"),
+      distanceLabel: t("distanceLabel"),
+      ratioLabel: t("ratioLabel"),
+      resultsHeading: t("resultsHeading"),
+      reshuffle: t("reshuffle"),
+      deltaRightTitle: t("deltaRightTitle"),
+      deltaRightBody: t("deltaRightBody"),
+      deltaTwoTitle: t("deltaTwoTitle"),
+      deltaTwoBody: t("deltaTwoBody"),
+      deltaThreeTitle: t("deltaThreeTitle"),
+      deltaThreeBody: t("deltaThreeBody"),
+    };
+    return (
+      <ExperimentShell slug={slug}>
+        <BrakingDistancePlayground labels={labels} />
+      </ExperimentShell>
     );
   }
 

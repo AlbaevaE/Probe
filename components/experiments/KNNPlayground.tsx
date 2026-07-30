@@ -146,7 +146,7 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
               cy={scale(query.y)}
               r={(maxNeighborDist / 260) * (W - 2 * PAD) + 4}
               fill="none"
-              stroke="#d6d0c8"
+              stroke="#E5DFD2"
               strokeWidth="1"
               strokeDasharray="4 3"
               style={{ opacity: 0.8, transition: "all 400ms" }}
@@ -162,7 +162,7 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
                 y1={scale(query.y)}
                 x2={scale(n.x)}
                 y2={scale(n.y)}
-                stroke="#d6d0c8"
+                stroke="#E5DFD2"
                 strokeWidth="1"
                 style={{ opacity: 0.6 }}
               />
@@ -175,7 +175,7 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
               cx={scale(p.x)}
               cy={scale(p.y)}
               r="6"
-              fill={p.cls === "red" ? "#9b3e14" : "#2d6a9f"}
+              fill={p.cls === "red" ? "#E05C4A" : "#7B5EA7"}
               opacity={0.8}
             />
           ))}
@@ -185,8 +185,8 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
             cx={scale(query.x)}
             cy={scale(query.y)}
             r="10"
-            fill={phase === "revealed" ? (result === "red" ? "#9b3e14" : "#2d6a9f") : "#fafaf9"}
-            stroke="#2c2523"
+            fill={phase === "revealed" ? (result === "red" ? "#E05C4A" : "#7B5EA7") : "#FFFDF8"}
+            stroke="#241F1A"
             strokeWidth="2"
             style={{ transition: "fill 400ms" }}
           />
@@ -194,7 +194,7 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
             x={scale(query.x)}
             y={scale(query.y) + 5}
             fontSize="13"
-            fill={phase === "revealed" ? "#fff" : "#2c2523"}
+            fill={phase === "revealed" ? "#fff" : "#241F1A"}
             textAnchor="middle"
             fontWeight="700"
             style={{ transition: "fill 400ms" }}
@@ -233,8 +233,8 @@ export function KNNPlayground({ labels }: { labels: Labels }) {
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {([
-              { key: "red" as Choice, title: labels.optRed, color: "#9b3e14" },
-              { key: "blue" as Choice, title: labels.optBlue, color: "#2d6a9f" },
+              { key: "red" as Choice, title: labels.optRed, color: "#E05C4A" },
+              { key: "blue" as Choice, title: labels.optBlue, color: "#7B5EA7" },
             ]).map((opt) => (
               <button
                 key={opt.key}

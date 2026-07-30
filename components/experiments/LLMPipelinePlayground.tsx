@@ -3,10 +3,13 @@
 import { useMemo, useState } from "react";
 import clsx from "clsx";
 
+type Sample = { input: string; output: string };
+
 type Labels = {
   label: string;
   title: string;
   situation: string;
+  samples: Sample[];
   prediction: string;
   optOnce: string;
   optOnceHint: string;
@@ -48,10 +51,12 @@ type Choice = "once" | "perWord" | "perToken";
 // Approximate BPE: split on word boundaries, punctuation,
 // and split long words into 2-3 char subwords.
 // This is intentionally simplified and honest about it.
-function simpleTokenize(text: string): string[] {
+export function simpleTokenize(text: string): string[] {
   const tokens: string[] = [];
-  // Split by spaces, keeping punctuation separate
-  const raw = text.match(/[а-яА-ЯёЁa-zA-Z0-9]+|[^\s]/g) || [];
+  // Split by spaces, keeping punctuation separate. Unicode letter classes, not
+  // an а-я range: Kyrgyz ө/ү/ң sit outside it and would each split off as
+  // punctuation, mangling every other word in the Kyrgyz samples.
+  const raw = text.match(/[\p{L}\p{N}]+|[^\s]/gu) || [];
   for (const word of raw) {
     if (word.length <= 4) {
       tokens.push(word);
@@ -66,24 +71,8 @@ function simpleTokenize(text: string): string[] {
 }
 
 const TOKEN_COLORS = [
-  "#9b3e14", "#2d6a9f", "#4d6a23", "#8b5e3c",
+  "#E05C4A", "#7B5EA7", "#2A7F8C", "#8b5e3c",
   "#6a5acd", "#b8860b", "#2e8b57", "#cd5c5c",
-];
-
-/* ── sample prompts ────────────────────────────────────────── */
-const SAMPLES = [
-  {
-    input: "Что такое нейросеть?",
-    output: "Нейросеть — это программа, которая учится находить закономерности в данных. Она состоит из слоёв узлов, соединённых между собой.",
-  },
-  {
-    input: "Почему небо голубое?",
-    output: "Солнечный свет рассеивается в атмосфере. Короткие волны синего цвета рассеиваются сильнее, поэтому мы видим небо голубым.",
-  },
-  {
-    input: "Как работает ИИ?",
-    output: "ИИ обучается на большом количестве текстов. Он учится предсказывать следующее слово и в процессе выучивает закономерности языка.",
-  },
 ];
 
 const STAGES = [
@@ -103,7 +92,9 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
   const [phase, setPhase] = useState<"idle" | "pipeline" | "revealed">("idle");
   const [stageIdx, setStageIdx] = useState(0);
 
-  const sample = SAMPLES[sampleIdx % SAMPLES.length];
+  // Prompts come from the locale file: the pipeline tokenizes the learner's
+  // own language, not Russian text sitting under Kyrgyz chrome.
+  const sample = labels.samples[sampleIdx % labels.samples.length];
   const inputTokens = useMemo(() => simpleTokenize(sample.input), [sample.input]);
   const outputTokens = useMemo(() => simpleTokenize(sample.output), [sample.output]);
   const totalTokens = inputTokens.length + outputTokens.length;
@@ -326,7 +317,7 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
                                 y1={42}
                                 x2={x2}
                                 y2={42}
-                                stroke="#9b3e14"
+                                stroke="#E05C4A"
                                 strokeWidth={strength * 2.5}
                                 opacity={strength * 0.4}
                                 style={{ transition: "all 300ms" }}
@@ -346,7 +337,7 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
                             x={x}
                             y={75}
                             fontSize="11"
-                            fill="#2c2523"
+                            fill="#241F1A"
                             textAnchor="middle"
                             fontFamily="monospace"
                           >
@@ -356,7 +347,7 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
                       );
                     })}
                     {/* bottom label */}
-                    <text x="200" y="110" fontSize="13" fill="#6b5f54" textAnchor="middle">
+                    <text x="200" y="110" fontSize="13" fill="#8A8175" textAnchor="middle">
                       attention scores
                     </text>
                     {/* arrows between layers */}
@@ -369,7 +360,7 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
                           y1={82}
                           x2={x}
                           y2={100}
-                          stroke="#d6d0c8"
+                          stroke="#E5DFD2"
                           strokeWidth="1"
                           markerEnd="url(#arrow)"
                         />
@@ -377,7 +368,7 @@ export function LLMPipelinePlayground({ labels }: { labels: Labels }) {
                     })}
                     <defs>
                       <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                        <path d="M0,0 L6,3 L0,6" fill="#d6d0c8" />
+                        <path d="M0,0 L6,3 L0,6" fill="#E5DFD2" />
                       </marker>
                     </defs>
                     {/* output blocks */}

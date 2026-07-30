@@ -21,22 +21,22 @@ function Plot({
 }) {
   return (
     <g>
-      <rect width="160" height="140" rx="10" fill="#fafaf9" stroke="#d6d0c8" />
+      <rect width="160" height="140" rx="10" fill="#FFFDF8" stroke="#E5DFD2" />
       <text
         x="12"
         y="20"
         fontSize="11"
         fontWeight="600"
-        fill="#2c2523"
+        fill="#241F1A"
         fontFamily='ui-serif, "Iowan Old Style", Georgia, serif'
       >
         {title}
       </text>
-      <line x1="14" y1="30" x2="14" y2="125" stroke="#d6d0c8" />
-      <line x1="14" y1="125" x2="150" y2="125" stroke="#d6d0c8" />
+      <line x1="14" y1="30" x2="14" y2="125" stroke="#E5DFD2" />
+      <line x1="14" y1="125" x2="150" y2="125" stroke="#E5DFD2" />
       <path d={path} fill="none" stroke={pathColor} strokeWidth="2" />
       {POINTS.map(([x, y], i) => (
-        <circle key={i} cx={14 + x} cy={125 - y} r="3" fill="#9b3e14" />
+        <circle key={i} cx={14 + x} cy={125 - y} r="3" fill="#E05C4A" />
       ))}
     </g>
   );
@@ -53,7 +53,7 @@ export function OverfitPlot() {
 
   return (
     <svg viewBox="0 0 340 150" className="h-auto w-full">
-      <Plot title="хорошо обобщает" path={goodPath} pathColor="#4d6a23" />
+      <Plot title="хорошо обобщает" path={goodPath} pathColor="#2A7F8C" />
       <g transform="translate(180,0)">
         <Plot title="переобучение" path={overfitPath} pathColor="#a83216" />
       </g>
